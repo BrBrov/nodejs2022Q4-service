@@ -1,5 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
-import { User, CreateUserDto } from '../models/user-models';
+import {
+  User,
+  CreateUserDto,
+  UserOutputData,
+  UpdatePasswordDto,
+} from '../models/user-models';
 
 export default class UserData {
   private id: string;
@@ -33,7 +38,9 @@ export default class UserData {
     };
   }
 
-  public updatePassword(oldPassword: string, newPassword: string): boolean {
+  public updatePassword(dto: UpdatePasswordDto): boolean {
+    const { oldPassword, newPassword } = { ...dto };
+
     if (oldPassword !== this.password) return false;
 
     this.password = newPassword;
@@ -41,6 +48,21 @@ export default class UserData {
     this.countVersionUpdate();
 
     return true;
+  }
+
+  public getUserOutput(): UserOutputData {
+    return {
+      id: this.id,
+      login: this.login,
+      version: this.version,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
+  }
+
+  public checkUser(userDto: CreateUserDto): boolean {
+    if (userDto.login === this.login) return true;
+    return false;
   }
 
   private updateTimeStamp(): void {

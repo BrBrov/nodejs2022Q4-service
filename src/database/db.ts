@@ -4,14 +4,10 @@ import UserData from './db/user';
 import { Album } from './models/album-models';
 
 export class DataBase {
-  private users: Array<UserData> = [];
-  private artists: Array<ArtistData> = [];
-  private albums: Array<Album> = [];
-  private tracks: Array<TrackData> = [];
-
-  public getUsers(): Array<UserData> {
-    return this.users;
-  }
+  public users: Array<UserData> = [];
+  public artists: Array<ArtistData> = [];
+  public albums: Array<Album> = [];
+  public tracks: Array<TrackData> = [];
 }
 
 export const db = new DataBase();

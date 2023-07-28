@@ -1,18 +1,20 @@
-export interface CreateUserDto {
+export class CreateUserDto {
   login: string;
   password: string;
 }
 
-export interface UpdatePasswordDto {
+export class UpdatePasswordDto {
   oldPassword: string; // previous password
   newPassword: string; // new password
 }
 
-export interface User {
+export class UserOutputData {
   id: string; // uuid v4
   login: string;
-  password: string;
   version: number; // integer number, increments on update
   createdAt: number; // timestamp of creation
   updatedAt: number; // timestamp of last update
+}
+export class User extends UserOutputData {
+  password: string;
 }

@@ -1,13 +1,80 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  HttpException,
+  Post,
+  Param,
+  Put,
+  Delete,
+  HttpCode,
+} from '@nestjs/common';
 import UserService from './user.service';
+import {
+  CreateUserDto,
+  UpdatePasswordDto,
+  UserOutputData,
+} from 'src/database/models/user-models';
 
 @Controller()
 export default class UserController {
-  constructor(private userDB: UserService) {}
+  constructor(private ctrl: UserService) {}
+
+  @Get()
+  public returnAllUsers(): Array<UserOutputData> {
+    return this.ctrl.getUsers();
+  }
 
   @Get(':id')
-  retUsers(@Param('id') id: string) {
-    console.log(id);
-    return this.userDB.getUsers();
+  public getUser(@Param('id') id: string): UserOutputData {
+    const user = this.ctrl.getUser(id);
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return user;
+  }
+
+  @Post()
+  public createUser(@Body() body: CreateUserDto): UserOutputData {
+    const newUser = this.ctrl.createUser(body);
+
+    if (!newUser) {
+      throw new HttpException(
+        'Access token is missing or invalid',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    return newUser;
+  }
+
+  @Put(':id')
+  public updateUser(
+    @Param('id') id: string,
+    @Body() body: UpdatePasswordDto,
+  ): UserOutputData {
+    const result = this.ctrl.setNewPassword(id, body);
+
+    if (result === null) {
+      throw new HttpException('oldPassowrd is wrong', HttpStatus.FORBIDDEN);
+    }
+
+    if (!result) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return result;
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public deleteUser(@Param('id') id: string): void {
+    const result = this.ctrl.deleteUser(id);
+
+    if (!result) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
   }
 }
