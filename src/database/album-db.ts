@@ -42,11 +42,11 @@ export class AlbumDataBase {
   }
 
   public deleteAlbum(id: string): boolean {
-    const isTrack = this.db.albums.some(
+    const isAlbum = this.db.albums.some(
       (item: AlbumData) => item.getAlbumID() === id,
     );
 
-    if (!isTrack) return false;
+    if (!isAlbum) return false;
 
     this.db.albums = this.db.albums.filter((item: AlbumData) => {
       if (item.getAlbumID() !== id) return item;

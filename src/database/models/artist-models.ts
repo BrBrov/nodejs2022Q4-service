@@ -1,8 +1,13 @@
-export interface Artist extends ArtistDto {
-  id: string; // uuid v4
+import { IsBoolean, IsString } from 'class-validator';
+
+export class ArtistDto {
+  @IsString()
+  name: string;
+
+  @IsBoolean()
+  grammy: boolean;
 }
 
-export interface ArtistDto {
-  name: string;
-  grammy: boolean;
+export class Artist extends ArtistDto {
+  id: string; // uuid v4
 }

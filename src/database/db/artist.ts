@@ -24,12 +24,10 @@ export default class ArtistData {
     };
   }
 
-  public updateArtist(artist: Artist): boolean {
-    if (artist.id !== this.id) return false;
-
+  public updateArtist(artist: ArtistDto): Artist {
     this.name = artist.name;
     this.grammy = artist.grammy;
 
-    return true;
+    return this.getArtist();
   }
 }

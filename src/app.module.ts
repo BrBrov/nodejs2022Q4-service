@@ -6,12 +6,14 @@ import routes from './app.routes';
 import TrackModule from './controllers/track/track.module';
 import UserModule from './controllers/user/user.module';
 import AlbumModule from './controllers/album/album.module';
+import ArtistModule from './controllers/artist/artist.module';
 
 @Module({
   imports: [
     UserModule,
     TrackModule,
     AlbumModule,
+    ArtistModule,
     RouterModule.register(routes),
   ],
   controllers: [AppController],
