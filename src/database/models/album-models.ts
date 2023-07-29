@@ -1,9 +1,17 @@
-export interface Album extends AlbumDto {
-  id: string; // uuid v4
+import { IsNumber, IsString, ValidateIf } from 'class-validator';
+
+export class AlbumDto {
+  @IsString()
+  name: string;
+
+  @IsNumber()
+  year: number;
+
+  @IsString()
+  @ValidateIf((_object, value) => value !== null)
+  artistId: string | null; // refers to Artist
 }
 
-export interface AlbumDto {
-  name: string;
-  year: number;
-  artistId: string | null; // refers to Artist
+export class Album extends AlbumDto {
+  id: string; // uuid v4
 }

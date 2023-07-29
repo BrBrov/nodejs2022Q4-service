@@ -27,13 +27,11 @@ export default class AlbumData {
     };
   }
 
-  public updateAlbum(album: Album): boolean {
-    if (album.id !== this.id) return false;
-
+  public updateAlbum(album: AlbumDto): Album {
     this.name = album.name;
     this.year = album.year;
     this.artistId = album.artistId;
 
-    return true;
+    return this.getAlbum();
   }
 }
