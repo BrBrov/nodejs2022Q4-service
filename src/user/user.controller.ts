@@ -16,6 +16,7 @@ import {
   UpdatePasswordDto,
   UserOutputData,
 } from 'src/database/models/user-models';
+import { UUIDValidationPipe } from 'src/pipe/uuid-validater';
 
 @Controller()
 export default class UserController {
@@ -27,7 +28,8 @@ export default class UserController {
   }
 
   @Get(':id')
-  public getUser(@Param('id') id: string): UserOutputData {
+  public getUser(@Param('id', UUIDValidationPipe) id: string): UserOutputData {
+    console.log(id);
     const user = this.ctrl.getUser(id);
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -52,7 +54,7 @@ export default class UserController {
 
   @Put(':id')
   public updateUser(
-    @Param('id') id: string,
+    @Param('id', UUIDValidationPipe) id: string,
     @Body() body: UpdatePasswordDto,
   ): UserOutputData {
     const result = this.ctrl.setNewPassword(id, body);
@@ -70,7 +72,7 @@ export default class UserController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public deleteUser(@Param('id') id: string): void {
+  public deleteUser(@Param('id', UUIDValidationPipe) id: string): void {
     const result = this.ctrl.deleteUser(id);
 
     if (!result) {
