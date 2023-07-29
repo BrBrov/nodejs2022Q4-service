@@ -16,7 +16,9 @@ import {
   UpdatePasswordDto,
   UserOutputData,
 } from 'src/database/models/user-models';
-import { UUIDValidationPipe } from 'src/pipe/uuid-validater';
+import { UUIDValidationPipe } from '../pipe/uuid-validater';
+import { UserDTOValidationPipe } from '../pipe/user-pipes/user-dto';
+import { UserUpdateDTOValidationPipe } from 'src/pipe/user-pipes/user-update';
 
 @Controller()
 export default class UserController {
@@ -29,7 +31,6 @@ export default class UserController {
 
   @Get(':id')
   public getUser(@Param('id', UUIDValidationPipe) id: string): UserOutputData {
-    console.log(id);
     const user = this.ctrl.getUser(id);
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -39,7 +40,9 @@ export default class UserController {
   }
 
   @Post()
-  public createUser(@Body() body: CreateUserDto): UserOutputData {
+  public async createUser(
+    @Body(UserDTOValidationPipe) body: CreateUserDto,
+  ): Promise<UserOutputData> {
     const newUser = this.ctrl.createUser(body);
 
     if (!newUser) {
@@ -53,10 +56,10 @@ export default class UserController {
   }
 
   @Put(':id')
-  public updateUser(
+  public async updateUser(
     @Param('id', UUIDValidationPipe) id: string,
-    @Body() body: UpdatePasswordDto,
-  ): UserOutputData {
+    @Body(UserUpdateDTOValidationPipe) body: UpdatePasswordDto,
+  ): Promise<UserOutputData> {
     const result = this.ctrl.setNewPassword(id, body);
 
     if (result === null) {
