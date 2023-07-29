@@ -1,23 +1,13 @@
 import { Module } from '@nestjs/common';
-import { RouterModule, Routes } from '@nestjs/core';
+import { RouterModule } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-
-const routes: Routes = [
-  {
-    path: '',
-    children: [
-      {
-        path: 'users',
-        module: UserModule,
-      },
-    ],
-  },
-];
+import routes from './app.routes';
+import TrackModule from './controllers/track/track.module';
+import UserModule from './controllers/user/user.module';
 
 @Module({
-  imports: [UserModule, RouterModule.register(routes)],
+  imports: [UserModule, TrackModule, RouterModule.register(routes)],
   controllers: [AppController],
   providers: [AppService],
 })

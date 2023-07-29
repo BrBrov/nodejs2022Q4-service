@@ -16,8 +16,8 @@ import {
   UpdatePasswordDto,
   UserOutputData,
 } from 'src/database/models/user-models';
-import { UUIDValidationPipe } from '../pipe/uuid-validater';
-import { UserDTOValidationPipe } from '../pipe/user-pipes/user-dto';
+import { UUIDValidationPipe } from '../../pipe/uuid-validater';
+import { UserDTOValidationPipe } from '../../pipe/user-pipes/user-dto';
 import { UserUpdateDTOValidationPipe } from 'src/pipe/user-pipes/user-update';
 
 @Controller()

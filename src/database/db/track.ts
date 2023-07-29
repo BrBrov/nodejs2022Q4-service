@@ -30,14 +30,12 @@ export default class TrackData {
     return this.id;
   }
 
-  public updateTrack(track: Track): boolean {
-    if (track.id !== this.id) return false;
-
+  public updateTrack(track: TrackDto): Track {
     this.name = track.name;
     this.artistId = track.artistId;
     this.albumId = track.albumId;
     this.duration = track.duration;
 
-    return true;
+    return this.getTrack();
   }
 }
