@@ -3,6 +3,7 @@ import TrackModule from './controllers/track/track.module';
 import UserModule from './controllers/user/user.module';
 import AlbumModule from './controllers/album/album.module';
 import ArtistModule from './controllers/artist/artist.module';
+import FavoritesModule from './controllers/favorite/favorite.module';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'artists',
         module: ArtistModule,
+      },
+      {
+        path: 'favs',
+        module: FavoritesModule,
       },
     ],
   },

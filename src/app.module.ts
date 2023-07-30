@@ -7,6 +7,7 @@ import TrackModule from './controllers/track/track.module';
 import UserModule from './controllers/user/user.module';
 import AlbumModule from './controllers/album/album.module';
 import ArtistModule from './controllers/artist/artist.module';
+import FavoritesModule from './controllers/favorite/favorite.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import ArtistModule from './controllers/artist/artist.module';
     TrackModule,
     AlbumModule,
     ArtistModule,
+    FavoritesModule,
     RouterModule.register(routes),
   ],
   controllers: [AppController],
