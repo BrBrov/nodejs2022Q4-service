@@ -2,6 +2,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   HttpException,
   HttpStatus,
   Param,
@@ -35,6 +36,7 @@ export default class FavoritesController {
   }
 
   @Delete('track/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   public deleteTrack(@Param('id', UUIDValidationPipe) id: string): string {
     const result = this.ctrl.deleteTrack(id);
 
@@ -60,6 +62,7 @@ export default class FavoritesController {
   }
 
   @Delete('album/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   public deleteAlbum(@Param('id', UUIDValidationPipe) id: string): string {
     const result = this.ctrl.deleteAlbum(id);
 
@@ -85,6 +88,7 @@ export default class FavoritesController {
   }
 
   @Delete('artist/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   public deleteArtist(@Param('id', UUIDValidationPipe) id: string): string {
     const result = this.ctrl.deleteArtist(id);
 

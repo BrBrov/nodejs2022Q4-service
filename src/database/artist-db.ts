@@ -29,7 +29,6 @@ export class ArtistDataBase {
     const artist = new ArtistData(dto);
 
     this.db.artists.push(artist);
-    console.dir(this.db.artists);
 
     return artist.getArtist();
   }
