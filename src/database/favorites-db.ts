@@ -51,7 +51,9 @@ export class FavoritesDataBase {
   public deleteTrack(id: string): boolean {
     const track: TrackData = this.findTrackInDB(id);
 
-    if (!track) return false;
+    if (!track) {
+      return false;
+    }
 
     return this.db.favorites.deleteTrack(track);
   }
@@ -59,7 +61,9 @@ export class FavoritesDataBase {
   public deleteAlbum(id: string): boolean {
     const album: AlbumData = this.findAlbumInDB(id);
 
-    if (!album) return false;
+    if (!album) {
+      return false;
+    }
 
     return this.db.favorites.deleteAlbum(album);
   }
@@ -67,7 +71,9 @@ export class FavoritesDataBase {
   public deleteArtist(id: string): boolean {
     const artist: ArtistData = this.findArtistInDB(id);
 
-    if (!artist) return false;
+    if (!artist) {
+      false;
+    }
 
     return this.db.favorites.deleteArtist(artist);
   }

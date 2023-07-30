@@ -1,5 +1,6 @@
 import { DataBase, db } from './db';
 import AlbumData from './db/album';
+import TrackData from './db/track';
 import { Album, AlbumDto } from './models/album-models';
 
 export class AlbumDataBase {
@@ -49,8 +50,18 @@ export class AlbumDataBase {
     if (!isAlbum) return false;
 
     this.db.albums = this.db.albums.filter((item: AlbumData) => {
-      if (item.getAlbumID() !== id) return item;
+      if (item.getAlbumID() !== id) {
+        return item;
+      }
     });
+
+    this.db.tracks.forEach((track: TrackData) => {
+      if (track.checkAlbumID(id)) {
+        track.setAlbumID(null);
+      }
+    });
+
+    this.db.favorites.deleteAlbumByID(id);
 
     return true;
   }

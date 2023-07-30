@@ -85,6 +85,27 @@ export default class FavoritesData {
     return true;
   }
 
+  public deleteArtistByID(id: string): void {
+    this.artists = this.artists.filter((artist: Artist) => artist.id !== id);
+    this.favData.artists = this.favData.artists.filter((artist: string) => {
+      if (artist !== id) return artist;
+    });
+  }
+
+  public deleteAlbumByID(id: string): void {
+    this.albums = this.albums.filter((album: Album) => album.id !== id);
+    this.favData.albums = this.favData.albums.filter((album: string) => {
+      if (album !== id) return album;
+    });
+  }
+
+  public deleteTrackByID(id: string): void {
+    this.tracks = this.tracks.filter((track: Track) => track.id !== id);
+    this.favData.tracks = this.favData.tracks.filter((track: string) => {
+      if (track !== id) return track;
+    });
+  }
+
   public getArtists(): Array<Artist> {
     return this.artists;
   }

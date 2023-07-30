@@ -34,4 +34,12 @@ export default class AlbumData {
 
     return this.getAlbum();
   }
+
+  public checkArtistID(id: string | null): boolean {
+    return id === this.artistId;
+  }
+
+  public setArtistID(id: string | null): void {
+    this.artistId = id;
+  }
 }

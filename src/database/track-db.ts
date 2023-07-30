@@ -52,6 +52,8 @@ export class TrackDataBase {
       if (item.getTrackID() !== id) return item;
     });
 
+    this.db.favorites.deleteTrackByID(id);
+
     return true;
   }
 }

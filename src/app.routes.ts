@@ -10,19 +10,19 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'users',
+        path: 'user',
         module: UserModule,
       },
       {
-        path: 'tracks',
+        path: 'track',
         module: TrackModule,
       },
       {
-        path: 'albums',
+        path: 'album',
         module: AlbumModule,
       },
       {
-        path: 'artists',
+        path: 'artist',
         module: ArtistModule,
       },
       {

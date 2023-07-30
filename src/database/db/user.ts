@@ -18,7 +18,7 @@ export default class UserData {
     this.id = uuidv4();
     this.login = user.login;
     this.password = user.password;
-    this.version = 0;
+    this.version = 1;
     this.createdAt = new Date().getTime();
     this.updatedAt = new Date().getTime();
   }

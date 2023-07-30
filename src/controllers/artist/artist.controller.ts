@@ -29,7 +29,7 @@ export default class ArtistController {
     const track = this.ctrl.getArtist(id);
 
     if (!track) {
-      throw new HttpException('Album was not found.', HttpStatus.NOT_FOUND);
+      throw new HttpException('Artist was not found.', HttpStatus.NOT_FOUND);
     }
 
     return track;
@@ -48,7 +48,7 @@ export default class ArtistController {
     const track = this.ctrl.updateArtist(id, body);
 
     if (!track) {
-      throw new HttpException('Album was not found.', HttpStatus.NOT_FOUND);
+      throw new HttpException('Artist was not found.', HttpStatus.NOT_FOUND);
     }
 
     return track;
@@ -60,7 +60,7 @@ export default class ArtistController {
     const result = this.ctrl.deleteArtist(id);
 
     if (!result) {
-      throw new HttpException('Album was not found.', HttpStatus.NOT_FOUND);
+      throw new HttpException('Artist was not found.', HttpStatus.NOT_FOUND);
     }
 
     return;

@@ -1,5 +1,7 @@
 import { DataBase, db } from './db';
+import AlbumData from './db/album';
 import ArtistData from './db/artist';
+import TrackData from './db/track';
 import { Artist, ArtistDto } from './models/artist-models';
 
 export class ArtistDataBase {
@@ -27,6 +29,7 @@ export class ArtistDataBase {
     const artist = new ArtistData(dto);
 
     this.db.artists.push(artist);
+    console.dir(this.db.artists);
 
     return artist.getArtist();
   }
@@ -49,8 +52,20 @@ export class ArtistDataBase {
     if (!isArtist) return false;
 
     this.db.artists = this.db.artists.filter((item: ArtistData) => {
-      if (item.getArtistID() !== id) return item;
+      if (item.getArtistID() !== id) {
+        return item;
+      }
     });
+
+    this.db.tracks.forEach((track: TrackData) => {
+      if (track.checkArtistID(id)) track.setArtistID(null);
+    });
+
+    this.db.albums.forEach((album: AlbumData) => {
+      if (album.checkArtistID(id)) album.setArtistID(null);
+    });
+
+    this.db.favorites.deleteArtistByID(id);
 
     return true;
   }

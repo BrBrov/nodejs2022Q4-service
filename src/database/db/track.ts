@@ -38,4 +38,20 @@ export default class TrackData {
 
     return this.getTrack();
   }
+
+  public checkArtistID(id: string | null): boolean {
+    return id === this.artistId;
+  }
+
+  public checkAlbumID(id: string | null): boolean {
+    return id === this.albumId;
+  }
+
+  public setArtistID(id: string | null): void {
+    this.artistId = id;
+  }
+
+  public setAlbumID(id: string | null): void {
+    this.albumId = id;
+  }
 }
