@@ -70,3 +70,8 @@ npm run format
 Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+
+### **Docker
+
+Build: docker-compose build
+Run: docker-compose up
