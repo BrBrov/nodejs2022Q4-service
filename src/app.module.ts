@@ -8,9 +8,12 @@ import UserModule from './controllers/user/user.module';
 import AlbumModule from './controllers/album/album.module';
 import ArtistModule from './controllers/artist/artist.module';
 import FavoritesModule from './controllers/favorite/favorite.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import postgreConfig from './type-orm/db-config';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot(postgreConfig),
     UserModule,
     TrackModule,
     AlbumModule,
