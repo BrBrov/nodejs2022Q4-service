@@ -8,7 +8,7 @@ import favoritesEntity from './favorites-entity';
 
 const postgreConfig: TypeOrmModuleOptions = {
   type: 'postgres',
-  host: 'postgres',
+  host: process.env.POSTGRES_HOST,
   port: Number(process.env.POSTGRES_PORT),
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
@@ -29,7 +29,7 @@ const postgreConfig: TypeOrmModuleOptions = {
     './track-entity.ts',
     './favorites-entity.ts',
   ],
-  migrationsTableName: 'home-library',
+  migrationsTableName: process.env.POSTGRES_DB,
 };
 
 export default postgreConfig;
