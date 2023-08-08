@@ -1,10 +1,10 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import 'dotenv/config.js';
-import userEntity from './user-entity';
-import albumEntity from './album-entity';
-import artistEntity from './artist-entity';
-import trackEntity from './track-entity';
-import favoritesEntity from './favorites-entity';
+import userEntity from './entityes/user-entity';
+import albumEntity from './entityes/album-entity';
+import artistEntity from './entityes/artist-entity';
+import trackEntity from './entityes/track-entity';
+import favoritesEntity from './entityes/favorites-entity';
 
 const postgreConfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -23,11 +23,11 @@ const postgreConfig: TypeOrmModuleOptions = {
   logging: true,
   synchronize: true,
   migrations: [
-    './user-entity.ts',
-    './album-entity.ts',
-    './artist-entity.ts',
-    './track-entity.ts',
-    './favorites-entity.ts',
+    './entityes/user-entity.ts',
+    './entityes/album-entity.ts',
+    './entityes/artist-entity.ts',
+    './entityes/track-entity.ts',
+    './entityes/favorites-entity.ts',
   ],
   migrationsTableName: process.env.POSTGRES_DB,
 };
