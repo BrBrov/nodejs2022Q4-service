@@ -31,7 +31,6 @@ const userEntity = new EntitySchema<User>({
     version: {
       type: 'bigint',
       version: true,
-      default: 1,
     },
   },
 });

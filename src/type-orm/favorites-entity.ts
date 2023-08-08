@@ -5,16 +5,19 @@ const favoritesEntity = new EntitySchema<Favorites>({
   name: 'Favorites',
   columns: {
     artists: {
-      type: 'text',
+      type: 'uuid',
       array: true,
+      primary: true,
     },
     albums: {
-      type: 'text',
+      type: 'uuid',
       array: true,
+      primary: true,
     },
     tracks: {
-      type: 'text',
+      type: 'uuid',
       array: true,
+      primary: true,
     },
   },
 });
