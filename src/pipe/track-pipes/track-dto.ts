@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
-import { TrackDto } from 'src/database/models/track-models';
+import { TrackDto } from 'src/models/track-models';
 
 @Injectable()
 export class TrackDTOValidationPipe implements PipeTransform {

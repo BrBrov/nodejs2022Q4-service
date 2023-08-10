@@ -12,7 +12,10 @@ services:
         - POSTGRES_USER:${POSTGRES_USER}
         - POSTGRES_PASSWORD:${POSTGRES_PASSWORD}
         - POSTGRES_HOST:postgres
-
+        - PG_CONTAINER_NAME:library
+        - PGDATA='/data/library'
+    volumes:
+      - home:/data/library
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     networks:
@@ -30,6 +33,8 @@ services:
         - JWT_SECRET_REFRESH_KEY:${JWT_SECRET_REFRESH_KEY}
         - TOKEN_EXPIRE_TIME:${TOKEN_EXPIRE_TIME}
         - TOKEN_REFRESH_EXPIRE_TIME:${TOKEN_REFRESH_EXPIRE_TIME}
+    volumes:
+      - home:/data/server
     ports:
       - ${PORT}:${PORT}
     command: npm run start:prod
@@ -39,3 +44,5 @@ services:
       - local
 networks:
   local:
+volumes:
+    home:

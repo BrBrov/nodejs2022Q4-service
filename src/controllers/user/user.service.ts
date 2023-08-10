@@ -1,35 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { userDB, UserDataBase } from '../../database/user-db';
-import {
-  CreateUserDto,
-  UpdatePasswordDto,
-  UserOutputData,
-} from 'src/database/models/user-models';
+import { InjectRepository } from '@nestjs/typeorm';
+import UserEntity from 'src/type-orm/entity/user-entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export default class UserService {
-  private readonly db: UserDataBase = userDB;
+  constructor(
+    @InjectRepository(UserEntity) private readonly db: Repository<UserEntity>,
+  ) {}
 
-  public getUsers(): Array<UserOutputData> {
-    return this.db.getUsers();
+  public getUsers(): boolean {
+    return this.db.manager.connection.isInitialized;
   }
 
-  public createUser(userDto: CreateUserDto): UserOutputData | null {
-    return this.db.createUser(userDto);
-  }
+  // public createUser(userDto: CreateUserDto): UserOutputData | null {
+  //   return this.db.createUser(userDto);
+  // }
 
-  public getUser(id: string): UserOutputData | null {
-    return this.db.getUser(id);
-  }
+  // public getUser(id: string): UserOutputData | null {
+  //   return this.db.getUser(id);
+  // }
 
-  public setNewPassword(
-    id: string,
-    dto: UpdatePasswordDto,
-  ): UserOutputData | null | undefined {
-    return this.db.updateUser(id, dto);
-  }
+  // public setNewPassword(
+  //   id: string,
+  //   dto: UpdatePasswordDto,
+  // ): UserOutputData | null | undefined {
+  //   return this.db.updateUser(id, dto);
+  // }
 
-  public deleteUser(id: string): boolean {
-    return this.db.deleteUser(id);
-  }
+  // public deleteUser(id: string): boolean {
+  //   return this.db.deleteUser(id);
+  // }
 }

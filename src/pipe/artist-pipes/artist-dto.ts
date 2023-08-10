@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
-import { ArtistDto } from 'src/database/models/artist-models';
+import { ArtistDto } from 'src/models/artist-models';
 
 @Injectable()
 export class ArtistDTOValidationPipe implements PipeTransform {
