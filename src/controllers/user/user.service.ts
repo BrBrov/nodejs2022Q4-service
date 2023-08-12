@@ -26,6 +26,7 @@ export default class UserService {
       },
     });
   }
+
   public async createUser(userDto: CreateUserDto): Promise<User> {
     return await this.db.save(userDto);
   }

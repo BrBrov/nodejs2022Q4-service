@@ -1,20 +1,47 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Album, AlbumDto } from 'src/models/album-models';
+import AlbumEntity from 'src/type-orm/entity/album-entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export default class AlbumService {
-  // public getAllAlbums(): Array<Album> {
-  //   return this.db.getAllAlbums();
-  // }
-  // public getAlbum(id: string): Album | null {
-  //   return this.db.getAlbum(id);
-  // }
-  // public createAlbum(dto: AlbumDto): Album {
-  //   return this.db.createAlbum(dto);
-  // }
-  // public updateAlbum(id: string, dto: AlbumDto): Album | null {
-  //   return this.db.updateAlbum(id, dto);
-  // }
-  // public deleteAlbum(id: string): boolean {
-  //   return this.db.deleteAlbum(id);
-  // }
+  constructor(
+    @InjectRepository(AlbumEntity) private db: Repository<AlbumEntity>,
+  ) {}
+
+  public async getAllAlbums(): Promise<Album[]> {
+    return await this.db.find();
+  }
+
+  public async getAlbum(id: string): Promise<Album> {
+    return await this.db.findOne({
+      where: {
+        id: id,
+      },
+    });
+  }
+
+  public async createAlbum(dto: AlbumDto): Promise<Album> {
+    return await this.db.save(dto);
+  }
+
+  public async updateAlbum(id: string, dto: AlbumDto): Promise<Album | null> {
+    return await this.db.update({ id }, { ...dto }).then((result) => {
+      if (result.affected === 0) return null;
+      return this.db.findOne({
+        where: {
+          id: id,
+        },
+      });
+    });
+  }
+
+  public async deleteAlbum(id: string): Promise<boolean> {
+    return await this.db.delete(id).then((result) => {
+      if (result.affected === 0) return false;
+
+      return true;
+    });
+  }
 }
