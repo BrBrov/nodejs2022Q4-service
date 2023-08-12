@@ -12,7 +12,7 @@ export default class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   login: string;
 
   @Column()
@@ -21,9 +21,27 @@ export default class UserEntity {
   @VersionColumn()
   version: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    transformer: {
+      from(date) {
+        return date.getTime();
+      },
+      to(date) {
+        return date;
+      },
+    },
+  })
   createdAt: number;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    transformer: {
+      from(date) {
+        return date.getTime();
+      },
+      to(date) {
+        return date;
+      },
+    },
+  })
   updatedAt: number;
 }

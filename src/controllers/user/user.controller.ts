@@ -1,66 +1,88 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import UserService from './user.service';
+import {
+  CreateUserDto,
+  UpdatePasswordDto,
+  UserOutputData,
+} from 'src/models/user-models';
+import { UserDTOValidationPipe } from 'src/pipe/user-pipes/user-dto';
+import { UUIDValidationPipe } from 'src/pipe/uuid-validater';
+import { UserUpdateDTOValidationPipe } from 'src/pipe/user-pipes/user-update';
 
 @Controller()
 export default class UserController {
   constructor(private ctrl: UserService) {}
 
   @Get()
-  public returnAllUsers(): boolean {
+  public returnAllUsers() {
     return this.ctrl.getUsers();
   }
 
-  // @Get(':id')
-  // public getUser(@Param('id', UUIDValidationPipe) id: string): UserOutputData {
-  //   const user = this.ctrl.getUser(id);
-  //   if (!user) {
-  //     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-  //   }
+  @Get(':id')
+  public async getUser(@Param('id', UUIDValidationPipe) id: string) {
+    const user = await this.ctrl.getUser(id);
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
 
-  //   return user;
-  // }
+    return user;
+  }
 
-  // @Post()
-  // public async createUser(
-  //   @Body(UserDTOValidationPipe) body: CreateUserDto,
-  // ): Promise<UserOutputData> {
-  //   const newUser = this.ctrl.createUser(body);
+  @Post()
+  public async createUser(
+    @Body(UserDTOValidationPipe) body: CreateUserDto,
+  ): Promise<UserOutputData> {
+    const newUser = await this.ctrl.createUser(body).catch(() => {
+      throw new HttpException(
+        'Access token is missing or invalid',
+        HttpStatus.UNAUTHORIZED,
+      );
+    });
 
-  //   if (!newUser) {
-  //     throw new HttpException(
-  //       'Access token is missing or invalid',
-  //       HttpStatus.UNAUTHORIZED,
-  //     );
-  //   }
+    if (!newUser) {
+    }
 
-  //   return newUser;
-  // }
+    delete newUser['password'];
 
-  // @Put(':id')
-  // public async updateUser(
-  //   @Param('id', UUIDValidationPipe) id: string,
-  //   @Body(UserUpdateDTOValidationPipe) body: UpdatePasswordDto,
-  // ): Promise<UserOutputData> {
-  //   const result = this.ctrl.setNewPassword(id, body);
+    return newUser;
+  }
 
-  //   if (result === null) {
-  //     throw new HttpException('oldPassowrd is wrong', HttpStatus.FORBIDDEN);
-  //   }
+  @Put(':id')
+  public async updateUser(
+    @Param('id', UUIDValidationPipe) id: string,
+    @Body(UserUpdateDTOValidationPipe) body: UpdatePasswordDto,
+  ): Promise<UserOutputData> {
+    const result = await this.ctrl.setNewPassword(id, body);
 
-  //   if (!result) {
-  //     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-  //   }
+    if (result === null) {
+      throw new HttpException('oldPassowrd is wrong', HttpStatus.FORBIDDEN);
+    }
 
-  //   return result;
-  // }
+    if (!result) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
 
-  // @Delete(':id')
-  // @HttpCode(HttpStatus.NO_CONTENT)
-  // public deleteUser(@Param('id', UUIDValidationPipe) id: string): void {
-  //   const result = this.ctrl.deleteUser(id);
+    return result;
+  }
 
-  //   if (!result) {
-  //     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-  //   }
-  // }
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async deleteUser(@Param('id', UUIDValidationPipe) id: string) {
+    const result = await this.ctrl.deleteUser(id);
+
+    if (!result) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+  }
 }
