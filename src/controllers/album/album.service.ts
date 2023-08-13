@@ -23,7 +23,7 @@ export default class AlbumService {
   }
 
   public async createAlbum(dto: AlbumDto): Promise<Album> {
-    return await this.db.save(dto);
+    return await this.db.save({ ...dto });
   }
 
   public async updateAlbum(id: string, dto: AlbumDto): Promise<Album | null> {

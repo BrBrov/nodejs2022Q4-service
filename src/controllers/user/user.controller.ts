@@ -43,15 +43,7 @@ export default class UserController {
   public async createUser(
     @Body(UserDTOValidationPipe) body: CreateUserDto,
   ): Promise<UserOutputData> {
-    const newUser = await this.ctrl.createUser(body).catch(() => {
-      throw new HttpException(
-        'Access token is missing or invalid',
-        HttpStatus.UNAUTHORIZED,
-      );
-    });
-
-    if (!newUser) {
-    }
+    const newUser = await this.ctrl.createUser(body);
 
     delete newUser['password'];
 

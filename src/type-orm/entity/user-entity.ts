@@ -12,13 +12,13 @@ export default class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, type: 'text' })
   login: string;
 
-  @Column()
+  @Column({ type: 'text' })
   password: string;
 
-  @VersionColumn()
+  @VersionColumn({ type: 'integer' })
   version: number;
 
   @CreateDateColumn({

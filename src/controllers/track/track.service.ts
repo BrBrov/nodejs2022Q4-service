@@ -11,13 +11,26 @@ export default class TrackService {
   ) {}
 
   public async getAllTracks(): Promise<Track[]> {
-    return await this.db.find();
+    return await this.db.find({
+      select: {
+        id: true,
+        name: true,
+        artistId: true,
+        albumId: true,
+      },
+    });
   }
 
   public async getTrack(id: string): Promise<Track> {
     return await this.db.findOne({
       where: {
         id: id,
+      },
+      select: {
+        id: true,
+        name: true,
+        artistId: true,
+        albumId: true,
       },
     });
   }

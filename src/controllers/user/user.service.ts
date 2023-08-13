@@ -28,7 +28,21 @@ export default class UserService {
   }
 
   public async createUser(userDto: CreateUserDto): Promise<User> {
-    return await this.db.save(userDto);
+    return await this.db.save(userDto).catch(() => {
+      return this.db.findOne({
+        where: {
+          login: userDto.login,
+          password: userDto.password,
+        },
+        select: {
+          id: true,
+          login: true,
+          createdAt: true,
+          updatedAt: true,
+          version: true,
+        },
+      });
+    });
   }
 
   public async getUser(id: string): Promise<UserOutputData> {
@@ -75,6 +89,7 @@ export default class UserService {
       .then((result) => {
         if (result.affected === 0) return null;
 
+        user.version += 1;
         return user;
       });
   }
