@@ -25,13 +25,14 @@ export default class UserController {
   constructor(private ctrl: UserService) {}
 
   @Get()
-  public returnAllUsers() {
-    return this.ctrl.getUsers();
+  public async returnAllUsers(): Promise<UserOutputData[]> {
+    return await this.ctrl.getUsers();
   }
 
   @Get(':id')
   public async getUser(@Param('id', UUIDValidationPipe) id: string) {
     const user = await this.ctrl.getUser(id);
+
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
@@ -40,6 +41,7 @@ export default class UserController {
   }
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   public async createUser(
     @Body(UserDTOValidationPipe) body: CreateUserDto,
   ): Promise<UserOutputData> {
@@ -51,6 +53,7 @@ export default class UserController {
   }
 
   @Put(':id')
+  @HttpCode(HttpStatus.CREATED)
   public async updateUser(
     @Param('id', UUIDValidationPipe) id: string,
     @Body(UserUpdateDTOValidationPipe) body: UpdatePasswordDto,
@@ -70,7 +73,9 @@ export default class UserController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async deleteUser(@Param('id', UUIDValidationPipe) id: string) {
+  public async deleteUser(
+    @Param('id', UUIDValidationPipe) id: string,
+  ): Promise<void> {
     const result = await this.ctrl.deleteUser(id);
 
     if (!result) {

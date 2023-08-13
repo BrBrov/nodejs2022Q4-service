@@ -47,9 +47,10 @@ export default class AlbumController {
     @Param('id', UUIDValidationPipe) id: string,
     @Body(AlbumDTOValidationPipe) body: AlbumDto,
   ): Promise<Album> {
-    const track = await this.ctrl.updateAlbum(id, body).catch(() => {
+    const track = await this.ctrl.updateAlbum(id, body);
+    if (!track) {
       throw new HttpException('Album was not found.', HttpStatus.NOT_FOUND);
-    });
+    }
 
     return track;
   }

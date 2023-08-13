@@ -15,7 +15,7 @@ export default class UserService {
     @InjectRepository(UserEntity) private readonly db: Repository<UserEntity>,
   ) {}
 
-  public async getUsers(): Promise<UserEntity[]> {
+  public async getUsers(): Promise<UserOutputData[]> {
     return await this.db.find({
       select: {
         id: true,
@@ -28,7 +28,7 @@ export default class UserService {
   }
 
   public async createUser(userDto: CreateUserDto): Promise<User> {
-    return await this.db.save(userDto).catch(() => {
+    return await this.db.save({ ...userDto }).catch(() => {
       return this.db.findOne({
         where: {
           login: userDto.login,
@@ -46,7 +46,7 @@ export default class UserService {
   }
 
   public async getUser(id: string): Promise<UserOutputData> {
-    const user = await this.db.find({
+    const user = await this.db.findOne({
       select: {
         id: true,
         login: true,
@@ -59,7 +59,7 @@ export default class UserService {
       },
     });
 
-    return user[0];
+    return user;
   }
 
   public async setNewPassword(
@@ -89,12 +89,26 @@ export default class UserService {
       .then((result) => {
         if (result.affected === 0) return null;
 
-        user.version += 1;
-        return user;
+        return this.db.findOne({
+          where: {
+            id: id,
+          },
+          select: {
+            id: true,
+            login: true,
+            version: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        });
       });
   }
 
-  public async deleteUser(id: string) {
-    return await this.db.delete(id);
+  public async deleteUser(id: string): Promise<boolean> {
+    return await this.db.delete(id).then((result) => {
+      if (result.affected === 0) return false;
+
+      return true;
+    });
   }
 }

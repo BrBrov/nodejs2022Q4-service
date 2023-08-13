@@ -33,6 +33,12 @@ export default class AlbumService {
         where: {
           id: id,
         },
+        select: {
+          id: true,
+          name: true,
+          year: true,
+          artistId: true,
+        },
       });
     });
   }
