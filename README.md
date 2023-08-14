@@ -71,7 +71,13 @@ Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
 
-### **Docker
+### **Docker**
+#### *How to start*
 
-Build: docker-compose build
-Run: docker-compose up
+1. > Rename .env.example file to .env
+
+2. > Build: docker-compose build
+
+3. > Run: docker-compose up -d
+
+4. > Tests: npm run test
