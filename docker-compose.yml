@@ -20,6 +20,8 @@ services:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     networks:
       - local
+    logging:
+      driver: none
   server:
     container_name: server
     env_file: .env
@@ -42,6 +44,8 @@ services:
       - postgres
     networks:
       - local
+    logging:
+      driver: none
 networks:
   local:
 volumes:
