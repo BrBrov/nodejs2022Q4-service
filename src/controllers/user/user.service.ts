@@ -71,24 +71,19 @@ export default class UserService {
         id: id,
       },
       select: {
-        id: true,
-        login: true,
-        version: true,
-        createdAt: true,
-        updatedAt: true,
+        password: true,
       },
     });
 
     if (!user) return undefined;
+    if (user.password !== dto.oldPassword) return null;
 
     return await this.db
       .update(
         { id: id, password: dto.oldPassword },
         { password: dto.newPassword },
       )
-      .then((result) => {
-        if (result.affected === 0) return null;
-
+      .then(() => {
         return this.db.findOne({
           where: {
             id: id,

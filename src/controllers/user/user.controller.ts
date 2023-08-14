@@ -53,7 +53,6 @@ export default class UserController {
   }
 
   @Put(':id')
-  @HttpCode(HttpStatus.CREATED)
   public async updateUser(
     @Param('id', UUIDValidationPipe) id: string,
     @Body(UserUpdateDTOValidationPipe) body: UpdatePasswordDto,
