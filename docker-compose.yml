@@ -15,21 +15,19 @@ services:
         - POSTGRES_HOST:postgres
         - PG_CONTAINER_NAME:library
     volumes:
-      - pgdata:/var/lib/postgresql/data/
-      - pglogs:/var/lib/postgresql/data/logs
+      - pgdata:/var/lib/postgresql/data
+      - pglogs:/var/lib/postgresql/logs
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     networks:
       - local
-    logging:
-      driver: none
     restart: always
 
   server:
     container_name: server
     env_file: .env
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
       args:
         - PORT:${PORT}
@@ -39,7 +37,7 @@ services:
         - TOKEN_EXPIRE_TIME:${TOKEN_EXPIRE_TIME}
         - TOKEN_REFRESH_EXPIRE_TIME:${TOKEN_REFRESH_EXPIRE_TIME}
     volumes:
-      - ./src:/server/scr
+      - ./src:/server/src
     ports:
       - ${PORT}:${PORT}
     command: npm run start:dev
@@ -47,12 +45,12 @@ services:
       - postgres
     networks:
       - local
-    logging:
-      driver: none
     restart: always
 
 networks:
   local:
+    driver: bridge
 
 volumes:
-    home:
+    pgdata:
+    pglogs:
