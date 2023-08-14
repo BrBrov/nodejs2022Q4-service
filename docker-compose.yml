@@ -1,5 +1,6 @@
 version: "3.9"
 services:
+
   postgres:
     env_file: .env
     container_name: ${POSTGRES_HOST}
@@ -13,15 +14,17 @@ services:
         - POSTGRES_PASSWORD:${POSTGRES_PASSWORD}
         - POSTGRES_HOST:postgres
         - PG_CONTAINER_NAME:library
-        - PGDATA='/data/library'
     volumes:
-      - home:/data/library
+      - pgdata:/var/lib/postgresql/data/
+      - pglogs:/var/lib/postgresql/data/logs
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     networks:
       - local
     logging:
       driver: none
+    restart: always
+
   server:
     container_name: server
     env_file: .env
@@ -36,17 +39,20 @@ services:
         - TOKEN_EXPIRE_TIME:${TOKEN_EXPIRE_TIME}
         - TOKEN_REFRESH_EXPIRE_TIME:${TOKEN_REFRESH_EXPIRE_TIME}
     volumes:
-      - home:/data/server
+      - ./src:/server/scr
     ports:
       - ${PORT}:${PORT}
-    command: npm run start:prod
+    command: npm run start:dev
     depends_on:
       - postgres
     networks:
       - local
     logging:
       driver: none
+    restart: always
+
 networks:
   local:
+
 volumes:
     home:
