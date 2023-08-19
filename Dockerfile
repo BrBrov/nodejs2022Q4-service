@@ -3,4 +3,4 @@ RUN mkdir -p /server
 WORKDIR /server
 COPY . /server
 RUN npm install
-CMD [ "npm run start:dev" ]
+CMD [ "npm", "run", "start:dev"]

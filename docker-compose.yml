@@ -4,6 +4,7 @@ services:
   postgres:
     env_file: .env
     container_name: ${POSTGRES_HOST}
+    image: database
     build:
       context: ./postgre-sql
       dockerfile: Dockerfile
@@ -20,11 +21,12 @@ services:
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     networks:
-      - local
+      - hls
     restart: always
 
   server:
     container_name: server
+    image: server
     env_file: .env
     build:
       context: .
@@ -40,15 +42,15 @@ services:
       - ./src:/server/src
     ports:
       - ${PORT}:${PORT}
-    command: npm run start:dev
     depends_on:
       - postgres
     networks:
-      - local
+      - hls
     restart: always
+    command: npm run start:dev
 
 networks:
-  local:
+  hls:
     driver: bridge
 
 volumes:
