@@ -10,6 +10,7 @@ import ArtistModule from './controllers/artist/artist.module';
 import FavoritesModule from './controllers/favorite/favorite.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import postgreConfig from './type-orm/db-config';
+import AuthModule from './controllers/authentication/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import postgreConfig from './type-orm/db-config';
     AlbumModule,
     ArtistModule,
     FavoritesModule,
+    AuthModule,
     RouterModule.register(routes),
   ],
   controllers: [AppController],

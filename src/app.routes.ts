@@ -4,6 +4,7 @@ import UserModule from './controllers/user/user.module';
 import AlbumModule from './controllers/album/album.module';
 import ArtistModule from './controllers/artist/artist.module';
 import FavoritesModule from './controllers/favorite/favorite.module';
+import AuthModule from './controllers/authentication/auth.module';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'favs',
         module: FavoritesModule,
+      },
+      {
+        path: 'auth',
+        module: AuthModule,
       },
     ],
   },

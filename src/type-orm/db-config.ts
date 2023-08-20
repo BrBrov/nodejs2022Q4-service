@@ -9,10 +9,12 @@ import {
   FavoritesArtistsEntity,
   FavoritesTracksEntity,
 } from './entity/favorites-entity';
+import UserAuthEntity from './entity/auth-entity';
 
 const postgreConfig: TypeOrmModuleOptions = {
   type: 'postgres',
-  host: process.env.POSTGRES_HOST,
+  // host: process.env.POSTGRES_HOST,
+  host: '0.0.0.0',
   port: Number(process.env.POSTGRES_PORT),
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
@@ -25,6 +27,7 @@ const postgreConfig: TypeOrmModuleOptions = {
     FavoritesArtistsEntity,
     FavoritesAlbumsEntity,
     FavoritesTracksEntity,
+    UserAuthEntity,
   ],
   synchronize: true,
   keepConnectionAlive: true,
@@ -34,6 +37,7 @@ const postgreConfig: TypeOrmModuleOptions = {
     './entity/artist-entity.ts',
     './entity/track-entity.ts',
     './entity/favorites-entity.ts',
+    './entity/auth-entity',
   ],
   migrationsTableName: process.env.POSTGRES_DB,
   logger: 'debug',
