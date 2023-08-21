@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  HttpCode,
   HttpException,
   HttpStatus,
   Post,
@@ -22,6 +23,7 @@ export default class AuthController {
   }
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   public async loginUser(
     @Body(UserDTOValidationPipe) body: CreateUserDto,
   ): Promise<TokenPair> {
@@ -38,6 +40,7 @@ export default class AuthController {
   }
 
   @Post('refresh')
+  @HttpCode(HttpStatus.OK)
   public async refreshToken(
     @Body('refreshToken') token: string,
   ): Promise<TokenPair> {
