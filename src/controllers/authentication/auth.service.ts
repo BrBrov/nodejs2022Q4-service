@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DecodeData, TokenPair } from 'src/models/auth-models';
 import { CreateUserDto, UserOutputData } from 'src/models/user-models';
 import UserAuthEntity from 'src/type-orm/entity/auth-entity';
 import HashService from 'src/util/hash';
@@ -15,7 +16,7 @@ export default class AuthService {
     @Inject('RefreshJwtService') private refresh: JwtService,
   ) {}
 
-  public async create(body: CreateUserDto) {
+  public async create(body: CreateUserDto): Promise<UserOutputData> {
     const user = await this.auth.findOne({
       where: {
         login: body.login,
@@ -45,29 +46,53 @@ export default class AuthService {
     return newUser as UserOutputData;
   }
 
-  public async login(body: CreateUserDto) {
+  public async login(body: CreateUserDto): Promise<TokenPair | null> {
     const user = await this.auth.findOne({
       where: {
         login: body.login,
       },
     });
 
-    if (!user) return;
+    if (!user) return null;
 
     if (!this.hasher.verifyPass(body.password, user.password)) {
+      return null;
+    }
+
+    return await this.generateJwtPair(user);
+  }
+
+  public async refreshTokens(refToken): Promise<TokenPair | null> {
+    const decodeData: DecodeData = this.refresh.decode(refToken) as DecodeData;
+
+    try {
+      decodeData.id;
+      decodeData.login;
+    } catch {
       return;
     }
 
+    const user = await this.auth.findOne({
+      where: {
+        id: decodeData.id,
+        login: decodeData.login,
+      },
+    });
+
+    if (!user) return null;
+
+    return await this.generateJwtPair(user);
+  }
+
+  private async generateJwtPair(user: UserAuthEntity): Promise<TokenPair> {
     return {
-      token: await this.jwt.signAsync({
+      accessToken: await this.jwt.signAsync({
         id: user.id,
         login: user.login,
-        time: new Date().getTime(),
       }),
-      refresh: await this.refresh.signAsync({
+      refreshToken: await this.refresh.signAsync({
         id: user.id,
         login: user.login,
-        time: new Date().getTime(),
       }),
     };
   }
